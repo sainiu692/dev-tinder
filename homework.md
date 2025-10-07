@@ -112,6 +112,7 @@ Everything after ? → Query Parameters (aka URL parameters, search parameters)
 Each parameter is written as key=value
 
 Multiple parameters are separated by &
+
 http://localhost:3000/user?userId=707&password=testing
  
 app.get("/user", (req, res) => {
