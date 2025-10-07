@@ -95,3 +95,34 @@ app.listen(3000,()=>{
 7. Install Postman app and make a workspace/collection > test API call
 
 8. Write logic to handle GET, POST, PATCH, DELETE API Calls and test them on Postman
+
+9. Explore routing and use of ?, + , (), * in the routes
+
+10. Use of regex in routes /a/ , /.*fly$/
+
+11. Reading the query params in the routes
+
+“The ? in a URL starts the query string, which contains query parameters — key-value pairs sent to the server.”
+
+🧠 In technical terms:
+? → Query String Separator
+
+Everything after ? → Query Parameters (aka URL parameters, search parameters)
+
+Each parameter is written as key=value
+
+Multiple parameters are separated by &
+http://localhost:3000/user?userId=707&password=testing
+ 
+<!-- app.get("/user", (req, res) => {
+  console.log(req.query)
+  res.send({ firstName: "Ujjwal", lastName: "Saini" });
+}); -->
+
+
+<!-- app.get("/user/:userId/:name/:password", (req, res) => {
+  console.log(req.params)
+  res.send({ firstName: "Ujjwal", lastName: "Saini" });
+}); -->
+
+12. Reading the dynamic routes
