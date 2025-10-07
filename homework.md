@@ -127,3 +127,36 @@ app.get("/user", (req, res) => {
 }); 
 
 12. Reading the dynamic routes 
+
+13. Multiple Route Handlers - Play with the code
+
+app.get("/user", [
+  (req, res, next) => {
+    console.log("handling router 1!!");
+    next();
+    res.send("1st router");
+  },
+  (req, res, next) => {
+    console.log("handling router 2!!");
+    res.send("2nd router");
+  },
+  (req, res, next) => {
+    console.log("handling router 3!!");
+    res.send("3rd router");
+  },
+  (req, res, next) => {
+    console.log("handling router 4!!");
+    res.send("4th router");
+  },
+  (req, res, next) => {
+    console.log("handling router 5!!");
+    res.send("5th router");
+  },
+]);
+
+14. next()
+
+15. next function and errors along with res.send()
+
+16. app.use("/route", rH, [rH2, rH3], rH4, rh5);
+
