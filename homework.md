@@ -114,15 +114,15 @@ Each parameter is written as key=value
 Multiple parameters are separated by &
 http://localhost:3000/user?userId=707&password=testing
  
-<!-- app.get("/user", (req, res) => {
+app.get("/user", (req, res) => {
   console.log(req.query)
   res.send({ firstName: "Ujjwal", lastName: "Saini" });
 }); -->
 
 
-<!-- app.get("/user/:userId/:name/:password", (req, res) => {
+ app.get("/user/:userId/:name/:password", (req, res) => {
   console.log(req.params)
   res.send({ firstName: "Ujjwal", lastName: "Saini" });
-}); -->
+}); 
 
-12. Reading the dynamic routes
+12. Reading the dynamic routes 
