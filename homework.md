@@ -180,3 +180,9 @@ app.get("/user", (req, res, next) => {
 });
 
 18. How express JS basically handles requests behind the scenes
+
+19. Difference app.use and app.all
+
+20. Write a dummy auth middleware for admin
+
+21. Write a dummy auth middleware for all user routes, except /user/login
