@@ -160,3 +160,23 @@ app.get("/user", [
 
 16. app.use("/route", rH, [rH2, rH3], rH4, rh5);
 
+17. What is a Middleware? Why do we need it?
+
+
+app.use("/",(req, res, next) => {
+  console.log("middleware 1");
+  // res.send("middleware 1");
+  next();
+});
+app.get("/user", (req, res, next) => {
+  console.log("handling router 1!!");
+  next();
+  res.send("middleware 2");
+});
+app.get("/user", (req, res, next) => {
+  console.log("request handler router 2!!");
+  res.send("request handling router");
+  next();
+});
+
+18. How express JS basically handles requests behind the scenes
