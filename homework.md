@@ -412,6 +412,8 @@ Real World Analogy:
 1. Take a blank form (new JobApplication)
 2. Fill it out with a pen (provide data)
 3. Submit it to HR (save to database)
+
+
 Method 2: Direct creation
 javascript
 // Person 2 fills and submits directly
