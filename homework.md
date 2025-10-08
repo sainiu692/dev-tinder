@@ -185,4 +185,31 @@ app.get("/user", (req, res, next) => {
 
 20. Write a dummy auth middleware for admin
 
+const adminAuthMiddleware = (req, res, next) => {
+  console.log("is Admin authenticated getting checked");
+  const token = "xyz";
+  const isAuthenticated = token === "xyz";
+  if (!isAuthenticated) {
+    return res.status(401).send("Unauthorized");
+  } else {
+    next();
+  }
+};
+
+app.use("/admin", adminAuthMiddleware);
+
+app.get("/admin/getAllData", (req, res, next) => {
+  res.send("All data sent");
+});
+app.get("/admin/deleteUser", (req, res, next) => {
+  res.send("User deleted");
+});
+
 21. Write a dummy auth middleware for all user routes, except /user/login
+
+app.post("/user/login", (req, res) => {
+  res.send("logged In successfully");
+});
+app.get("/user/data", userAuthMiddleware, (req, res) => {
+  res.send("data Sent to user");
+});
