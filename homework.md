@@ -269,7 +269,30 @@ connectDB()
 
 27. Create a userSchema & user Model
 
+ # schema defines the structure of every user document:
+ const userSchema = new mongoose.Schema({
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  age: { type: Number }
+});
+
+ # 2️⃣ Model = Factory / Constructor
+Definition: A model is the class or constructor function you use to create and manipulate actual data based on the schema.
+const User = mongoose.model("User", userSchema);
+
+# 3️⃣ Creating a New Instance = Building an Actual Object
+Definition: A new instance of a model is like an actual house built using the factory.
 const mongoose = require("mongoose");
+const newUser = new User({
+  firstName: "Ujjwal",
+  lastName: "Saini",
+  email: "ujji@gmail.com",
+  age: 22
+});
+
+await newUser.save();
+
 
 const userSchema = new mongoose.Schema({
     firstName:{
@@ -315,6 +338,7 @@ app.post("/signup", async (req, res) => {
 });
 
 29. Push some documents using API calls from postman
+An instance of a model is called a document. Creating them and saving to the database is easy.
 
 30. Error Handling using try , catch
 
