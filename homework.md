@@ -243,4 +243,97 @@ app.use("/", (err, req, res, next) => {
 
 25. Connect your application to the Database "Connection-url"/devTinder
 
+const mongoose = require("mongoose");
+
+const connectDB = async () => {
+  await mongoose.connect(
+    "mongodb+srv://sainiu692:5HGQvUoHNEzS16Lt@namaste-node.jkezkna.mongodb.net/devTinder"
+  );
+};
+
+module.exports= {connectDB};
+
+
 26. Call the connectDB function and connect to database before starting application on 7777
+connectDB()
+  .then(() => {
+    console.log("DB connected successfully");
+    app.listen(3000, () => {
+      console.log("Server is running on port 3000");
+    });
+  })
+  .catch((err) => {
+    console.log("DB connection error", err);
+  });
+
+
+27. Create a userSchema & user Model
+
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema({
+    firstName:{
+        type:String,
+    },
+    lastName:{
+        type:String,
+    },
+    email:{
+        type:String,
+    },
+    password:{
+        type:String,
+    },
+    age:{
+        type:String,
+    },
+    gender:{
+        type:String,
+    },
+    
+});
+
+
+const User=mongoose.model("user",userSchema)
+
+module.exports=User;
+
+28. Create POST /sigup API to add data to database
+
+app.post("/signup", async (req, res) => {
+  // creating a new instance of a user model
+  const user = new User({
+    firstName: "Virat",
+    lastName: "kohli",
+    email: "viru@gmail.com",
+    password: "12345",
+    age: "22",
+    gender: "male",
+  });
+  await user.save();
+  res.send("User signed up successfully");
+});
+
+29. Push some documents using API calls from postman
+
+30. Error Handling using try , catch
+
+app.post("/signup", async (req, res) => {
+  // creating a new instance of a user model
+  const user = new User({
+    firstName: "Virat",
+    lastName: "kohli",
+    email: "viru@gmail.com",
+    password: "12345",
+    age: "22",
+    gender: "male",
+  });
+  try {
+    await user.save();
+    res.send("User signed up successfully");
+  } catch (err) {
+    res.status(500).send("Error signing up user: " + err.message);
+  }
+});
+
+
