@@ -485,3 +485,90 @@ app.post("/signup", async (req, res) => {
     res.status(500).send("Error signing up user: " + err.message);
   }
 });
+
+34. User.findOne with duplucate email ids, which object returned
+
+app.get("/user", async (req, res) => {
+  const userEmail = req.body.email;
+  try {
+    const users = await User.findOne({ email: userEmail });
+    if (!users) {
+      res.status(404).send("user not found");
+    } else {
+      res.send(users);
+    }
+  } catch (err) {
+    res.status(400).send("Error fetching user: " + err.message);
+  }
+});
+
+35. API- Get user by email
+
+app.get("/user", async (req, res) => {
+  const userEmail = req.body.email;
+  try {
+    const users = await User.find({ email: userEmail });
+    // why the if block response not sending as findOne returns a single object not an array an hence length is undefined
+    // and we doing undefined.length===0 which gives error and it is directly moving to catch block
+    if (users.length === 0) {
+      res.status(404).send("User not found");
+    } else {
+      res.send(users);
+    }
+  } catch (err) {
+    res.status(400).send("Error fetching user: " + err.message);
+  }
+});
+
+36. API - Feed API - GET /feed - get all the users from the database
+
+ Feed API -GET/feed -get all users from database
+
+app.get("/feed", async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.send(users);
+  } catch (err) {
+    res.status(400).send("Error fetching user: " + err.message);
+  }
+});
+
+37. API - Get user by ID
+
+38. Create a delete user API
+
+app.delete("/user", async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    // await User.findByIdAndDelete({_id:userId});
+    await User.findByIdAndDelete(userId);
+    res.send("User deleted successfully");
+  } catch (err) {
+    res.status(400).send("Error fetching user: " + err.message);
+  }
+});
+39. Difference between PATCH and PUT
+
+40. API - Update a user
+
+// update  data of user
+app.patch("/user", async (req, res) => {
+  try {
+    const userId = req.body._id;
+    const data = req.body;
+    // const user = await User.findByIdAndUpdate({ _id: userId }, data);
+    const user = await User.findByIdAndUpdate(userId, data,{
+      returnDocument: "after",
+    });
+    console.log(user);
+    res.send("User updated successfully");
+  } catch (err) {
+    res.status(400).send("Error fetching user: " + err.message);
+  }
+});
+
+41. Explore the Mongoose Documention for Model methods
+
+42. What are options in a Model.findOneAndUpdate method, explore more about it
+
+43. API - Update the user with email ID
