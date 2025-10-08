@@ -213,3 +213,25 @@ app.post("/user/login", (req, res) => {
 app.get("/user/data", userAuthMiddleware, (req, res) => {
   res.send("data Sent to user");
 });
+
+
+22. Error Handling using app.use("/", (err, req, res, next) = {});
+
+app.get("/getUserData", (req, res) => {
+  try 
+  {
+    // logic of DB call and getUserData
+    throw new Error("modules not handled properly");
+    res.send("User Data");
+  }
+  catch (err) 
+  {
+    res.status(500).send("Something broke up!");
+  }
+});
+
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    res.status(500).send("Something broke!");
+  }
+});
