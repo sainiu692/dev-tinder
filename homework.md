@@ -466,3 +466,22 @@ app.post("/signup", async (req, res) => {
 });
 
 
+
+31. JS object vs JSON (difference)
+
+32. Add the express.json middleware to your app
+app.use(express.json());
+
+
+33. Make your signup API dynamic to recive data from the end user
+
+app.post("/signup", async (req, res) => {
+  // creating a new instance of a user model
+  const user = new User(req.body);
+  try {
+    await user.save();
+    res.send("User signed up successfully");
+  } catch (err) {
+    res.status(500).send("Error signing up user: " + err.message);
+  }
+});
