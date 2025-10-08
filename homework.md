@@ -235,3 +235,12 @@ app.use("/", (err, req, res, next) => {
     res.status(500).send("Something broke!");
   }
 });
+
+
+23. Create a free cluster on MongoDB official website (Mongo Atlas)
+
+24. Install mongoose library
+
+25. Connect your application to the Database "Connection-url"/devTinder
+
+26. Call the connectDB function and connect to database before starting application on 7777
