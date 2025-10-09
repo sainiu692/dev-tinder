@@ -572,3 +572,25 @@ app.patch("/user", async (req, res) => {
 42. What are options in a Model.findOneAndUpdate method, explore more about it
 
 43. API - Update the user with email ID
+
+
+44. Explore schematype options from the documention
+
+45. add required, unique, lowercase, min, minLength, trim
+
+46. Add default
+
+47. Create a custom validate function for gender
+
+ gender: {
+      type: String,
+      validate(value) {
+        if (!["male", "female", "other"].includes(value)) {
+          throw new Error("Gender data is not valid");
+        }
+      },
+    },
+
+48. Improve the DB schema - PUT all appropiate validations on each field in Schema
+
+49. Add timestamps to the userSchema
