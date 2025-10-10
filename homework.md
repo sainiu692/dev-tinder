@@ -594,3 +594,7 @@ app.patch("/user", async (req, res) => {
 48. Improve the DB schema - PUT all appropiate validations on each field in Schema
 
 49. Add timestamps to the userSchema
+
+50. Add API level validation on Patch request & Signup post api
+
+51. DATA Sanitizing - Add API validation for each field

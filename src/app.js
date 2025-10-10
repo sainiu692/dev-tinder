@@ -68,13 +68,13 @@ app.delete("/user", async (req, res) => {
 });
 
 // update  data of user
-app.patch("/user", async (req, res) => {
+app.patch("/user/:userId", async (req, res) => {
   try {
-    const userId = req.body._id;
+    const userId = req.params?.userId;
     const data = req.body;
 
     const ALLOWED_UPDATES = [
-      "_id",
+      "userId",
       "photoUrl",
       "about",
       "gender",
@@ -87,6 +87,21 @@ app.patch("/user", async (req, res) => {
     );
     if (!isUpdateAllowed) {
       throw new Error("Update not allowed!!!");
+    }
+    if (data?.age < 18) {
+      throw new Error("Age must be at least 18");
+    }
+    if (data?.age > 120) {
+      throw new Error("Age must be less than 120");
+    }
+    if (data?.skills.length > 10) {
+      throw new Error("Skills should not be more than 10");
+    }
+    if(data?.about?.trim().length===0){
+      throw new Error("About cannot be empty");
+    }
+    if (data?.about.length > 500) {
+      throw new Error("about should not be more than 500 characters");
     }
 
     // const user = await User.findByIdAndUpdate({ _id: userId }, data);
