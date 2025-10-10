@@ -597,4 +597,54 @@ app.patch("/user", async (req, res) => {
 
 50. Add API level validation on Patch request & Signup post api
 
+
+// update  data of user
+app.patch("/user/:userId", async (req, res) => {
+  try {
+    const userId = req.params?.userId;
+    const data = req.body;
+
+    const ALLOWED_UPDATES = [
+      "userId",
+      "photoUrl",
+      "about",
+      "gender",
+      "age",
+      "skills",
+    ];
+
+    const isUpdateAllowed = Object.keys(data).every((k) =>
+      ALLOWED_UPDATES.includes(k)
+    );
+    if (!isUpdateAllowed) {
+      throw new Error("Update not allowed!!!");
+    }
+    if (data?.age < 18) {
+      throw new Error("Age must be at least 18");
+    }
+    if (data?.age > 120) {
+      throw new Error("Age must be less than 120");
+    }
+    if (data?.skills.length > 10) {
+      throw new Error("Skills should not be more than 10");
+    }
+    if(data?.about?.trim().length===0){
+      throw new Error("About cannot be empty");
+    }
+    if (data?.about.length > 500) {
+      throw new Error("about should not be more than 500 characters");
+    }
+
+    // const user = await User.findByIdAndUpdate({ _id: userId }, data);
+    const user = await User.findByIdAndUpdate(userId, data, {
+      returnDocument: "after",
+      runValidators: true,
+    });
+    console.log(user);
+    res.send("User updated successfully");
+  } catch (err) {
+    res.status(400).send("Error fetching user: " + err.message);
+  }
+});
+
 51. DATA Sanitizing - Add API validation for each field

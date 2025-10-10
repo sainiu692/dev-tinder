@@ -18,10 +18,20 @@ const userSchema = new mongoose.Schema(
       required: true,
       index: true,
       unique: true,
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("Invalid Email :" + value);
+        }
+      },
     },
     password: {
       type: String,
       required: true,
+      validate(value) {
+        if (!validator.isStrongPassword(value)) {
+          throw new Error("Enter a strong password :" + value);
+        }
+      },
     },
     age: {
       type: Number,
@@ -39,6 +49,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default:
         "https://t4.ftcdn.net/jpg/02/44/43/69/360_F_244436923_vkMe10KKKiw5bjhZeRDT05moxWcPpdmb.jpg",
+      validate(value) {
+        if (!validator.isURL(value)) {
+          throw new Error("Invalid URL :" + value);
+        }
+      },
     },
     about: {
       type: String,
