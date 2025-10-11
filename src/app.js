@@ -1,20 +1,66 @@
 const express = require("express");
 const { connectDB } = require("./config/database");
 const User = require("./models/user");
+const { validateSignUpData } = require("./utils/validation");
+const bcrypt = require("bcrypt");
+const  validator  = require("validator"); 
 const app = express();
 
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
-  // creating a new instance of a user model
-  const user = new User(req.body);
   try {
+
+    //validation of data
+    validateSignUpData(req);
+
+    //encrypt the password
+    const { firstName,lastName,email,password } = req.body;
+    const passwordHash = bcrypt.hashSync(password, 10);
+    console.log(passwordHash);
+
+    // creating a new instance of a user model
+    const user = new User({
+      firstName,
+      lastName,
+      email,
+      password:passwordHash
+    });
     await user.save();
     res.send("User signed up successfully");
-  } catch (err) {
-    res.status(400).send("Error signing up user: " + err.message);
+  }
+  
+  catch (err) {
+    res.status(400).send("Error: " + err.message);
   }
 });
+
+// login API
+app.post("/login",async(req,res)=>{
+try{
+const {email,password}=req.body;
+
+if(!validator.isEmail(email)){
+throw new Error("Invalid email address");
+}
+const user=await User.findOne({email:email});
+if(!user){
+  throw new Error("invalid credentials!!!!");
+}
+const isPasswordValid= await bcrypt.compare(password,user.password)
+
+if(!isPasswordValid){
+  throw new Error("invalid credentials!!!!")
+}else{
+  res.send("User logged in successfully");
+}
+}catch (err) {
+    res.status(400).send("Error: " + err.message);
+  }
+})
+
+
+
 
 // get user by email
 app.get("/user", async (req, res) => {
@@ -94,13 +140,13 @@ app.patch("/user/:userId", async (req, res) => {
     if (data?.age > 120) {
       throw new Error("Age must be less than 120");
     }
-    if (data?.skills.length > 10) {
+    if (data?.skills?.length > 10) {
       throw new Error("Skills should not be more than 10");
     }
-    if(data?.about?.trim().length===0){
+    if (data?.about?.trim()?.length === 0) {
       throw new Error("About cannot be empty");
     }
-    if (data?.about.length > 500) {
+    if (data?.about?.length > 500) {
       throw new Error("about should not be more than 500 characters");
     }
 

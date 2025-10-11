@@ -648,3 +648,8 @@ app.patch("/user/:userId", async (req, res) => {
 });
 
 51. DATA Sanitizing - Add API validation for each field
+52. Validate data in Signup API
+
+53. Install bcrypt package
+
+54. Create PasswordHash using bcrypt.hash & save the user is excrupted password
