@@ -3,19 +3,23 @@ const { connectDB } = require("./config/database");
 const User = require("./models/user");
 const { validateSignUpData } = require("./utils/validation");
 const bcrypt = require("bcrypt");
-const  validator  = require("validator"); 
+const validator = require("validator");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+const { userAuth } = require("./middleware/auth");
+
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.post("/signup", async (req, res) => {
   try {
-
     //validation of data
     validateSignUpData(req);
 
     //encrypt the password
-    const { firstName,lastName,email,password } = req.body;
+    const { firstName, lastName, email, password, skills } = req.body;
     const passwordHash = bcrypt.hashSync(password, 10);
     console.log(passwordHash);
 
@@ -24,43 +28,68 @@ app.post("/signup", async (req, res) => {
       firstName,
       lastName,
       email,
-      password:passwordHash
+      password: passwordHash,
+      skills,
     });
     await user.save();
     res.send("User signed up successfully");
-  }
-  
-  catch (err) {
+  } catch (err) {
     res.status(400).send("Error: " + err.message);
   }
 });
 
 // login API
-app.post("/login",async(req,res)=>{
-try{
-const {email,password}=req.body;
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-if(!validator.isEmail(email)){
-throw new Error("Invalid email address");
-}
-const user=await User.findOne({email:email});
-if(!user){
-  throw new Error("invalid credentials!!!!");
-}
-const isPasswordValid= await bcrypt.compare(password,user.password)
+    if (!validator.isEmail(email)) {
+      throw new Error("Invalid email address");
+    }
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      throw new Error("invalid credentials!!!!");
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
-if(!isPasswordValid){
-  throw new Error("invalid credentials!!!!")
-}else{
-  res.send("User logged in successfully");
-}
-}catch (err) {
+    if (isPasswordValid) {
+      // create a jwt token
+      const token = jwt.sign({ _id: user._id }, "DEV@TINDER692",{
+        expiresIn: "1d",
+      });
+      console.log(token);
+
+      //add the token to cookie and send the response back to user
+      res.cookie("token", token,{
+        expires: new Date(Date.now() + 8*360000),
+      });
+      res.send("User logged in successfully");
+    } else {
+      throw new Error("invalid credentials!!!!");
+    }
+  } catch (err) {
     res.status(400).send("Error: " + err.message);
   }
-})
+});
 
+// get Profile API
+app.get("/profile", userAuth, async (req, res) => {
+  try {
+    const user = req.user;
+    res.send(user);
+  } catch (err) {
+    res.status(400).send("Error: " + err.message);
+  }
+});
 
-
+app.post("/sendConnectionRequest", userAuth, async (req, res) => {
+  try {
+    const user = req.user;
+    res.send(user.firstName + " " + " sent connection request");
+  } catch (err) {
+    res.status(400).send("Error: " + err.message);
+  }
+});
 
 // get user by email
 app.get("/user", async (req, res) => {

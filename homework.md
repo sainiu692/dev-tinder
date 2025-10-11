@@ -653,3 +653,25 @@ app.patch("/user/:userId", async (req, res) => {
 53. Install bcrypt package
 
 54. Create PasswordHash using bcrypt.hash & save the user is excrupted password
+
+55. Create login API
+
+56. Compare passwords and throw errors if email or password is invalid
+
+57. install cookie-parser
+
+58. just send a dummy cookie to user
+
+59. create GET /profile APi and check if you get the cookie back
+
+60. install jsonwebtoken
+
+61. IN login API, after email and password validation, create e JWT token and send it to user in cookies
+
+62. read the cookies inside your profile API and find the logged in user
+
+63. userAuth Middleware
+
+64. Add the userAuth middle ware in profile API and a new sendConnectionRequest API
+
+65. Set the expiry of JWT token and cookies to 7 days

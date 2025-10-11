@@ -1,24 +1,36 @@
-const adminAuthMiddleware = (req, res, next) => {
-  console.log("is Admin authenticated getting checked");
-  const token = "xyz";
-  const isAuthenticated = token === "xyz";
-  if (!isAuthenticated) {
-    return res.status(401).send("Unauthorized");
-  } else {
+
+const jwt=require("jsonwebtoken");
+const User = require("../models/user");
+
+// 1. Get token from cookies
+  // 2. Verify token is valid
+  // 3. Extract user ID from token
+  // 4. Find user in database
+  // 5. Attach user to request object
+  // 6. Call next() to continue to the actual route
+
+
+
+const userAuth = async (req, res, next) => {
+  try {
+    // getting token from cookies
+
+    const { token } = req.cookies;
+    if (!token) {
+      throw new Error("Invalid token or no token present");
+    }
+    // validate my token
+    const decodedObj = await jwt.verify(token, "DEV@TINDER692");
+    const { _id } = decodedObj;
+    const user = await User.findById(_id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    req.user = user;
     next();
+  } catch (err) {
+    res.status(401).send("Error: " + err.message);
   }
 };
-const userAuthMiddleware = (req, res, next) => {
-  console.log("is User authenticated getting checked");
-  const token = "xyz";
-  const isAuthenticated = token === "xyz";
-  if (!isAuthenticated) {
-    return res.status(401).send("Unauthorized");
-  } else {
-    next();
-  }
-};
-module.exports = {
-  adminAuthMiddleware,
-  userAuthMiddleware
-};
+
+module.exports = { userAuth };
