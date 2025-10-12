@@ -7,9 +7,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
 
-
-
-
 authRouter.post("/signup", async (req, res) => {
   try {
     //validation of data
@@ -68,6 +65,13 @@ authRouter.post("/login", async (req, res) => {
   } catch (err) {
     res.status(400).send("Error: " + err.message);
   }
+});
+
+authRouter.post("/logout", (req, res) => {
+  res.cookie("token", null, {
+    expires: new Date(Date.now()),
+  });
+  res.send("User logged out successfully");
 });
 
 module.exports = {

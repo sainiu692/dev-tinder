@@ -2,7 +2,7 @@
 const jwt=require("jsonwebtoken");
 const User = require("../models/user");
 
-// 1. Get token from cookies
+  // 1. Get token from cookies
   // 2. Verify token is valid
   // 3. Extract user ID from token
   // 4. Find user in database

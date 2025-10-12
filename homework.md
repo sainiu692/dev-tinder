@@ -685,3 +685,11 @@ app.patch("/user/:userId", async (req, res) => {
 69. Create a list all API you can think of in Dev Tinder
 
 70. Group multiple routes under respective routers
+
+71. Read documentation for express.Router
+
+72. Create routes folder for managing auth,profile, request routers
+
+73. create authRouter, profileRouter, requestRouter
+
+74. Import these routers in app.js
