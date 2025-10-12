@@ -1,0 +1,66 @@
+app.get("/user", async (req, res) => {
+  const userEmail = req.body.email;
+  try {
+    const users = await User.find({ email: userEmail });
+    // why the if block response not sending as findOne returns a single object not an array an hence length is undefined
+    // and we doing undefined.length===0 which gives error and it is directly moving to catch block
+    if (users.length === 0) {
+      res.status(404).send("User not found");
+    } else {
+      res.send(users);
+    }
+  } catch (err) {
+    res.status(400).send("Error fetching user: " + err.message);
+  }
+});
+
+
+# update  data of user
+
+app.patch("/user/:userId", async (req, res) => {
+  try {
+    const userId = req.params?.userId;
+    const data = req.body;
+
+    const ALLOWED_UPDATES = [
+      "userId",
+      "photoUrl",
+      "about",
+      "gender",
+      "age",
+      "skills",
+    ];
+
+    const isUpdateAllowed = Object.keys(data).every((k) =>
+      ALLOWED_UPDATES.includes(k)
+    );
+    if (!isUpdateAllowed) {
+      throw new Error("Update not allowed!!!");
+    }
+    if (data?.age < 18) {
+      throw new Error("Age must be at least 18");
+    }
+    if (data?.age > 120) {
+      throw new Error("Age must be less than 120");
+    }
+    if (data?.skills?.length > 10) {
+      throw new Error("Skills should not be more than 10");
+    }
+    if (data?.about?.trim()?.length === 0) {
+      throw new Error("About cannot be empty");
+    }
+    if (data?.about?.length > 500) {
+      throw new Error("about should not be more than 500 characters");
+    }
+
+    // const user = await User.findByIdAndUpdate({ _id: userId }, data);
+    const user = await User.findByIdAndUpdate(userId, data, {
+      returnDocument: "after",
+      runValidators: true,
+    });
+    console.log(user);
+    res.send("User updated successfully");
+  } catch (err) {
+    res.status(400).send("Error fetching user: " + err.message);
+  }
+});

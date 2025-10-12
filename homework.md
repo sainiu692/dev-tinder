@@ -675,3 +675,13 @@ app.patch("/user/:userId", async (req, res) => {
 64. Add the userAuth middle ware in profile API and a new sendConnectionRequest API
 
 65. Set the expiry of JWT token and cookies to 7 days
+
+66. Create userSchema method to getJWT()
+
+67. Create UserSchema method to comparepassword(passwordInputByUser)
+
+68. Explore tinder APIs
+
+69. Create a list all API you can think of in Dev Tinder
+
+70. Group multiple routes under respective routers
