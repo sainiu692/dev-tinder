@@ -693,3 +693,33 @@ app.patch("/user/:userId", async (req, res) => {
 73. create authRouter, profileRouter, requestRouter
 
 74. Import these routers in app.js
+
+75. Create POST /logout API
+
+76. Create PATCH /profile/edit
+
+77. Create PATCH /profile/password API => forgot password API
+
+78. Make you validate all data in every POST, PATCH apis
+
+79. Create Connnection Request Schema
+
+80. Send Connection Request API
+
+81. Proper validation of Data
+
+82. Think about ALL corner cases
+
+83. $or query $and query in mongoose - https://www.mongodb.com/docs/manual/reference/operator/query-logical/
+
+84. schema.pre("save") function
+
+85. Read more about indexes in MongoDB
+
+86. Why do we need index in DB?
+
+87. What is the advantages and disadvantage of creating?
+
+88. Read this arcticle about compond indexes - https://www.mongodb.com/docs/manual/core/indexes/index-types/index-compound/
+
+89. ALWAYS THINK ABOUT CORNER CASES
