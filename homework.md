@@ -723,3 +723,11 @@ app.patch("/user/:userId", async (req, res) => {
 88. Read this arcticle about compond indexes - https://www.mongodb.com/docs/manual/core/indexes/index-types/index-compound/
 
 89. ALWAYS THINK ABOUT CORNER CASES
+
+90. Write code with proper validations for POST /request/review/:status/:requestId
+
+91. Thought process - POST vs GET
+
+92. Read about ref and populate https://mongoosejs.com/docs/populate.html
+
+93. Create GET /user/requests/received with all the checks
