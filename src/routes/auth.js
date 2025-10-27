@@ -13,7 +13,7 @@ authRouter.post("/signup", async (req, res) => {
     validateSignUpData(req);
 
     //encrypt the password
-    const { firstName, lastName, email, password, age, gender, skills } =
+    const { firstName, lastName, emailId, password, age, gender, skills } =
       req.body;
     const passwordHash = bcrypt.hashSync(password, 10);
     // console.log(passwordHash);
@@ -22,7 +22,7 @@ authRouter.post("/signup", async (req, res) => {
     const user = new User({
       firstName,
       lastName,
-      email,
+      emailId,
       password: passwordHash,
       age,
       gender,
@@ -37,12 +37,12 @@ authRouter.post("/signup", async (req, res) => {
 
 authRouter.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { emailId, password } = req.body;
 
-    if (!validator.isEmail(email)) {
+    if (!validator.isEmail(emailId)) {
       throw new Error("Invalid email address");
     }
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ emailId: emailId });
     if (!user) {
       throw new Error("invalid credentials!!!!");
     }
