@@ -17,7 +17,8 @@ const userAuth = async (req, res, next) => {
 
     const { token } = req.cookies;
     if (!token) {
-      throw new Error("Invalid token or no token present");
+      // throw new Error("Invalid token or no token present");
+      return res.status(401).send("Please Login!!")
     }
     // validate my token
     const decodedObj = await jwt.verify(token, "DEV@TINDER692");
