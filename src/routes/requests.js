@@ -26,29 +26,15 @@ requestRouter.post(
         return res.status(404).json({ message: "User not found!!!!" });
       }
 
-      // const existingConnectionRequest = await ConnectionRequest.findOne({
-      //   $or: [
-      //     { fromUserId, toUserId },
-      //     { fromUserId: toUserId, toUserId: fromUserId },
-      //   ],
-      // });
-      // if (existingConnectionRequest) {
-      //   return res
-      //     .status(400)
-      //     .json({ message: "Connection Request already exists" });
-      // }
       const existingConnectionRequest = await ConnectionRequest.findOne({
         $or: [
-          { fromUserId, toUserId, status: { $in: ["interested", "ignored"] } },
-          {
-            fromUserId: toUserId,
-            toUserId: fromUserId,
-            status: { $in: ["interested", "ignored"] },
-          },
+          { fromUserId, toUserId },
+          { fromUserId: toUserId, toUserId: fromUserId },
         ],
       });
 
       if (existingConnectionRequest) {
+        // If there's a pending or previous request
         return res.status(400).json({
           message: `A ${existingConnectionRequest.status} connection request already exists`,
         });
