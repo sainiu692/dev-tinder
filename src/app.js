@@ -6,7 +6,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 app.use(cors({
-  origin: "http://localhost:5173", // or your port
+  origin: "https://devtinder-web-xn4u.onrender.com/", // or your port       here we give frontend url
   credentials: true,
 }));
 
