@@ -6,7 +6,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 app.use(cors({
-  origin: "https://devtinder-web-xn4u.onrender.com/", // or your port       here we give frontend url
+  origin: "https://devtinder-web-zo9w.onrender.com", // or your port       here we give frontend url
   credentials: true,
 }));
 
