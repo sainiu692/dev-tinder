@@ -31,6 +31,9 @@ authRouter.post("/signup", async (req, res) => {
     const savedUser = await user.save();
     const token = await savedUser.getJWT();
     res.cookie("token", token, {
+      httpOnly: true,
+      secure: true, // Required for HTTPS
+      sameSite: "none", // Required for cross-origin
       expires: new Date(Date.now() + 8 * 360000),
     });
     res.json({ message: "User signed up successfully", data: savedUser });
@@ -84,7 +87,6 @@ authRouter.post("/login", async (req, res) => {
 //   res.send("User logged out successfully");
 // });
 
-
 authRouter.post("/logout", async (req, res) => {
   try {
     // Clear the cookie properly
@@ -97,12 +99,12 @@ authRouter.post("/logout", async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Logged out successfully"
+      message: "Logged out successfully",
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Logout failed"
+      message: "Logout failed",
     });
   }
 });
